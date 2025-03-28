@@ -1,28 +1,18 @@
-#Radhe Radhe 
+import google.generativeai as genai
 
-import openai
-import os
-from dotenv import load_dotenv
+genai.configure(api_key="your_gemini_api_key")
 
-load_dotenv()
-openai.api_key=os.getenv("OPENAI_API_KEY")
+def chat_with_gemini(prompt):
+    model = genai.GenerativeModel("gemini-1.5-pro-latest")  # ✅ Use an available model
+    response = model.generate_content(prompt)
+    return response.text
 
-def chat_with_gpt(prompt):
-    client=openai.OpenAI()
-    response=client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role":"system","content":"You are a helpful assistant."},
-                  {"role":"user","content":prompt}]
-
- )
-    return response['choices'][0]['message']['content']
-
-print("Kedzil:Hello!, Type 'exit' to end the conversation.")
+print("Kedzil: Hello! Type 'exit' to end the conversation.")
 
 while True:
-    user_input=input("You:")
-    if user_input.lower()==exit:
-        print("Kedzil:Radhe Radhe :)")
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        print("Kedzil: Radhe Radhe :)")
         break
-    response=chat_with_gpt(user_input)
-    print("Kedzil:",response)
+    response = chat_with_gemini(user_input)
+    print("Kedzil:", response)
